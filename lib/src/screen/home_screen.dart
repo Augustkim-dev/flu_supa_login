@@ -1,3 +1,4 @@
+import 'package:flu_supa_login/src/widget/common_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,45 +18,23 @@ class HomeScreen extends StatelessWidget {
           children: [
             Container(
               height: 69,
-              child: ElevatedButton(
+              child: JunElevatedButton(
+                title: '로그인',
                 onPressed: () {
                   Navigator.of(context).pushNamed('/login');
                 },
-                child: Text('로그인',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      4,
-                    ),
-                  ),
-                ),
               ),
             ),
             SizedBox(height: 16),
             Container(
               height: 69,
-              child: ElevatedButton(
+              child: JunElevatedButton(
+                title: '회원가입',
                 onPressed: () {
                   Navigator.of(context).pushNamed('/register');
                 },
-                child: Text(
-                  '회원가입',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
+                fontColor: Colors.black,
+                backgroundColor: Colors.white,
               ),
             ),
             SizedBox(height: 150),
