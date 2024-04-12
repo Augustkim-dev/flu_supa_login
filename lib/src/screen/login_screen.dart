@@ -1,4 +1,4 @@
-import 'package:flu_supa_login/src/widget/common_widget.dart';
+import 'package:flu_supa_login/src/widget/index.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,41 +19,19 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('이메일',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            junTextFormField(text: '이메일'),
             SizedBox(height: 4),
-            TextFormField(
-              decoration: InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2),
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2),
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red, width: 2),
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2),
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-              ),
-            ),
+            junTextFormField(text: '비밀번호'),
             SizedBox(height: 4),
+            SizedBox(height: 16),
             Container(
               width: double.infinity,
               height: 69,
               child: JunElevatedButton(
                 title: '로그인',
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/login');
+                  // Navigator.of(context).pushNamed('/login');
                 },
               ),
             ),

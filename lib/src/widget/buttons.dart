@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+part of 'index.dart';
 
 class JunElevatedButton extends StatelessWidget {
   String title;
-  // Function onPressed;
   VoidCallback onPressed;
   Color? fontColor;
   Color? backgroundColor;

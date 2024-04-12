@@ -1,4 +1,5 @@
-import 'package:flu_supa_login/src/widget/common_widget.dart';
+// import 'package:flu_supa_login/src/widget/common_widget.dart';
+import 'package:flu_supa_login/src/widget/index.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
