@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flu_supa_login/src/widget/index.dart';
 import 'package:flutter/material.dart';
 
@@ -20,9 +22,15 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            junTextFormField(text: '이메일'),
+            junTextFormField(
+              text: '이메일',
+              editingController: _emailTextController,
+            ),
             SizedBox(height: 4),
-            junTextFormField(text: '비밀번호'),
+            junTextFormField(
+              text: '비밀번호',
+              editingController: _passwdTextController,
+            ),
             SizedBox(height: 4),
             SizedBox(height: 16),
             Container(

@@ -3,7 +3,13 @@ part of 'index.dart';
 class junTextFormField extends StatelessWidget {
   String text;
   int? maxLine;
-  junTextFormField({super.key, required this.text, this.maxLine = 1});
+  TextEditingController editingController;
+  junTextFormField({
+    super.key,
+    required this.text,
+    this.maxLine = 1,
+    required this.editingController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +20,7 @@ class junTextFormField extends StatelessWidget {
         SizedBox(height: 4),
         TextFormField(
           maxLines: maxLine,
+          controller: editingController,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
