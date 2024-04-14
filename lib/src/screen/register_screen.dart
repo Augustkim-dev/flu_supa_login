@@ -83,21 +83,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           await supabase.auth.signUp(email: emailText, password: passwdText);
     } on AuthApiException catch (error) {
       if (error.statusCode == '422') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            // content: Text(error.message),
-            content: Text('이미 가입된 이메일이 존재합니다'),
-            duration: Duration(seconds: 3),
-          ),
-        );
+        showSnackBar(context, '이미 가입된 이메일이 있습니다');
       } else {
         print('가입 에러발생 $error');
         SnackBar(content: Text('가입에러 발생 : ${error.message}'));
       }
-      return;
     } catch (error) {
       print('기타 에러 발생 $error');
-      return;
     }
 
     final Session? session = response.session;

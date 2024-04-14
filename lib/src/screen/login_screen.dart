@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flu_supa_login/src/widget/index.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +14,33 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwdTextController = TextEditingController();
+
+  final supabase = Supabase.instance.client;
+  bool isLogin = false;
+  bool _auth = false;
+
+  @override
+  void initState() {
+    checkLoginState();
+
+    super.initState();
+  }
+
+  void checkLoginState() {
+    supabase.auth.onAuthStateChange.listen((data) {
+      // final event = data.event;
+      // if (event == AuthChangeEvent.signedIn) {
+      //   Navigator.of(context).pushNamed('/main');
+      // }
+      if (_auth) return;
+      final session = data.session;
+      if (session != null) {
+        _auth = true;
+        print('session id is alive : email : ${data.session!.user.email}');
+        Navigator.of(context).popAndPushNamed('/main');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +66,13 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 69,
               child: JunElevatedButton(
                 title: '로그인',
-                onPressed: () {
-                  // Navigator.of(context).pushNamed('/login');
+                onPressed: () async {
+                  await loginWithEmail(_emailTextController.text.trim(),
+                      _passwdTextController.text.trim());
+
+                  if (isLogin) {
+                    Navigator.of(context).popAndPushNamed('/main');
+                  }
                 },
               ),
             ),
@@ -47,5 +80,27 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future loginWithEmail(String emailText, String passwdText) async {
+    late AuthResponse response = AuthResponse();
+    try {
+      response = await supabase.auth
+          .signInWithPassword(email: emailText, password: passwdText);
+    } on AuthApiException catch (error) {
+      if (error.statusCode == '400') {
+        showSnackBar(context, '${error.message} - 아이디 / 비밀번호 확인필요');
+      }
+    } catch (error) {
+      showSnackBar(context, '기타 로그인 오류');
+    }
+
+    final User? user = response.user;
+
+    if (user?.id != null) {
+      setState(() {
+        isLogin = true;
+      });
+    }
   }
 }
