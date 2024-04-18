@@ -76,6 +76,49 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
             ),
+            SizedBox(height: 8),
+            Container(
+                width: double.infinity,
+                height: 69,
+                child: JunElevatedButton(
+                    title: 'Kakao 로그인',
+                    svgPath: 'assets/kakao_logo.svg',
+                    widthImg: 15,
+                    heightImg: 15,
+                    fontColor: Colors.black,
+                    backgroundColor: Colors.yellow,
+                    onPressed: () {})),
+            SizedBox(height: 8),
+            Container(
+                width: double.infinity,
+                height: 69,
+                child: JunElevatedButton(
+                    title: 'Google 로그인',
+                    svgPath: 'assets/google_logo.svg',
+                    widthImg: 30,
+                    heightImg: 30,
+                    fontColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    onPressed: () async {
+                      try {
+                        await supabase.auth
+                            .signInWithOAuth(OAuthProvider.google);
+                      } catch (error) {
+                        print('$error');
+                      }
+                    })),
+            SizedBox(height: 8),
+            Container(
+                width: double.infinity,
+                height: 69,
+                child: JunElevatedButton(
+                    title: 'Apple 로그인',
+                    svgPath: 'assets/apple_logo.svg',
+                    widthImg: 30,
+                    heightImg: 30,
+                    fontColor: Colors.white,
+                    backgroundColor: Colors.black,
+                    onPressed: () {})),
           ],
         ),
       ),
