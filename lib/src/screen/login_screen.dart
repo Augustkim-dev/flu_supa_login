@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flu_supa_login/src/widget/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -67,8 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: JunElevatedButton(
                 title: '로그인',
                 onPressed: () async {
-                  await loginWithEmail(_emailTextController.text.trim(),
-                      _passwdTextController.text.trim());
+                  await loginWithEmail(_emailTextController.text.trim(), _passwdTextController.text.trim());
 
                   if (isLogin) {
                     Navigator.of(context).popAndPushNamed('/main');
@@ -100,12 +100,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontColor: Colors.black,
                     backgroundColor: Colors.white,
                     onPressed: () async {
-                      try {
-                        await supabase.auth
-                            .signInWithOAuth(OAuthProvider.google);
-                      } catch (error) {
-                        print('$error');
-                      }
+                      // try {
+                      //   await supabase.auth
+                      //       .signInWithOAuth(OAuthProvider.google);
+                      // } catch (error) {
+                      //   print('$error');
+                      // }
+                      await signInWithGoogle();
                     })),
             SizedBox(height: 8),
             Container(
@@ -128,8 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future loginWithEmail(String emailText, String passwdText) async {
     late AuthResponse response = AuthResponse();
     try {
-      response = await supabase.auth
-          .signInWithPassword(email: emailText, password: passwdText);
+      response = await supabase.auth.signInWithPassword(email: emailText, password: passwdText);
     } on AuthApiException catch (error) {
       if (error.statusCode == '400') {
         showSnackBar(context, '${error.message} - 아이디 / 비밀번호 확인필요');
@@ -145,5 +145,19 @@ class _LoginScreenState extends State<LoginScreen> {
         isLogin = true;
       });
     }
+  }
+}
+
+Future signInWithGoogle() async {
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  if (googleUser != null) {
+    print('name = ${googleUser.displayName}');
+    print('email = ${googleUser.email}');
+    print('id = ${googleUser.id}');
+
+    // setState(() {
+    //   _loginPlatform = LoginPlatform.google;
+    // });
   }
 }
