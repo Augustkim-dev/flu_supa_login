@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwdTextController = TextEditingController();
 
   final supabase = Supabase.instance.client;
+
   bool isLogin = false;
   bool _auth = false;
 
@@ -68,7 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: JunElevatedButton(
                 title: '로그인',
                 onPressed: () async {
-                  await loginWithEmail(_emailTextController.text.trim(), _passwdTextController.text.trim());
+                  await loginWithEmail(_emailTextController.text.trim(),
+                      _passwdTextController.text.trim());
 
                   if (isLogin) {
                     Navigator.of(context).popAndPushNamed('/main');
@@ -106,7 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       // } catch (error) {
                       //   print('$error');
                       // }
-                      await signInWithGoogle();
+
+                      await signInWithGoogle(supabase);
                     })),
             SizedBox(height: 8),
             Container(
@@ -129,7 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future loginWithEmail(String emailText, String passwdText) async {
     late AuthResponse response = AuthResponse();
     try {
-      response = await supabase.auth.signInWithPassword(email: emailText, password: passwdText);
+      response = await supabase.auth
+          .signInWithPassword(email: emailText, password: passwdText);
     } on AuthApiException catch (error) {
       if (error.statusCode == '400') {
         showSnackBar(context, '${error.message} - 아이디 / 비밀번호 확인필요');
@@ -148,13 +152,39 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Future signInWithGoogle() async {
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+Future signInWithGoogle(SupabaseClient supabase) async {
+  // final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  final GoogleSignIn? googleSignIn = await GoogleSignIn(
+    clientId:
+        '650709582498-1qmfbbmmreu08jn8q5h4oum4a1ffee03.apps.googleusercontent.com',
+    serverClientId:
+        '650709582498-v9dkc3cr1ti2nmgipd996m2rbsv6ab6v.apps.googleusercontent.com',
+  );
+
+  final googleUser = await googleSignIn!.signIn();
+  final googleAuth = await googleUser!.authentication;
+  final accessToken = googleAuth.accessToken;
+  final idToken = googleAuth.idToken;
 
   if (googleUser != null) {
     print('name = ${googleUser.displayName}');
     print('email = ${googleUser.email}');
     print('id = ${googleUser.id}');
+    print('accessToken = ${accessToken}');
+    print('idToken = ${idToken}');
+
+    if (accessToken == null) {
+      throw 'No Access Token found.';
+    }
+    if (idToken == null) {
+      throw 'No ID Token found.';
+    }
+
+    supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+      accessToken: accessToken,
+    );
 
     // setState(() {
     //   _loginPlatform = LoginPlatform.google;
