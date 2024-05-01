@@ -3,6 +3,7 @@ import 'package:flu_supa_login/src/screen/login_screen.dart';
 import 'package:flu_supa_login/src/screen/main_screen.dart';
 import 'package:flu_supa_login/src/screen/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -10,6 +11,12 @@ Future<void> main() async {
     url: 'https://gocpskrrkaptukxazafb.supabase.co',
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvY3Bza3Jya2FwdHVreGF6YWZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYyNDY4MDIsImV4cCI6MjAyMTgyMjgwMn0.Eh_livKHLJfoR90PbovE0s5JTE-pe9x7qchMY4YpS-8',
+  );
+
+  //📲 runApp 호출 전 Flutter SDK 초기화 해주는 부분
+  KakaoSdk.init(
+    nativeAppKey: 'b0aa81e15f8889c4308f5c734647749d',
+    javaScriptAppKey: 'dc4ea77a31f044ff48e3a4d1328c25b6',
   );
 
   runApp(const MyApp());

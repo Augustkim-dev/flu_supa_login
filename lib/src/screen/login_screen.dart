@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flu_supa_login/src/widget/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakao;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -89,7 +88,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     heightImg: 15,
                     fontColor: Colors.black,
                     backgroundColor: Colors.yellow,
-                    onPressed: () {})),
+                    onPressed: () async {
+                      // await supabase.auth.signInWithOAuth(OAuthProvider.kakao);
+                      await signInWithKakao(supabase);
+                    })),
             SizedBox(height: 8),
             Container(
                 width: double.infinity,
@@ -190,4 +192,21 @@ Future signInWithGoogle(SupabaseClient supabase) async {
     //   _loginPlatform = LoginPlatform.google;
     // });
   }
+}
+
+Future signInWithKakao(SupabaseClient supabase) async {
+  /*
+  bool isInstalled = await kakao.isKakaoTalkInstalled();
+
+  kakao.OAuthToken token = isInstalled
+      ? await kakao.UserApi.instance.loginWithKakaoTalk()
+      : await kakao.UserApi.instance.loginWithKakaoAccount();
+
+  supabase.auth.signInWithIdToken(
+    provider: OAuthProvider.kakao,
+    idToken: token.idToken!,
+    accessToken: token.accessToken,
+  );
+  */
+  await supabase.auth.signInWithOAuth(OAuthProvider.kakao);
 }

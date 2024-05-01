@@ -53,6 +53,9 @@
         
         <!-- google login -->
         <string>com.googleusercontent.apps.650709582498-1qmfbbmmreu08jn8q5h4oum4a1ffee03</string>
+		<!-- kakao login -->
+        <string>b0aa81e15f8889c4308f5c734647749d</string>
+
       </array>
       </dict>
     </array>
